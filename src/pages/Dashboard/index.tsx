@@ -10,6 +10,7 @@ import {
 import { AuthContext } from "../../contexts/AuthContext";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamsList } from "../../routes/app.routes";
+import { api } from "../../services/api";
 
 export default function Dashboard() {
   const navigation =
@@ -22,10 +23,16 @@ export default function Dashboard() {
       return;
     }
 
+    const response = await api.post("/order", {
+      table: Number(number),
+    });
+
     navigation.navigate("Order", {
       number: number,
-      order_id: "298e49de-d1b2-450e-9a03-401504cf27b4",
+      order_id: response.data.id,
     });
+
+    setNumber("");
   };
 
   return (
