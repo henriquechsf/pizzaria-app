@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import {
+  ActivityIndicator,
   Image,
   StyleSheet,
   Text,
@@ -10,7 +11,7 @@ import {
 import { AuthContext } from "../../contexts/AuthContext";
 
 export default function SignIn() {
-  const { signIn } = useContext(AuthContext);
+  const { signIn, loadingAuth } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,7 +50,11 @@ export default function SignIn() {
           activeOpacity={0.7}
           onPress={handleLogin}
         >
-          <Text style={styles.buttonText}>Acessar</Text>
+          {loadingAuth ? (
+            <ActivityIndicator size={25} color="#FFF" />
+          ) : (
+            <Text style={styles.buttonText}>Acessar</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
