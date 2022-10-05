@@ -13,6 +13,8 @@ import { Feather } from "@expo/vector-icons";
 import { api } from "../../services/api";
 import { ModalPicker } from "../../components/ModalPicker";
 import { ListItem } from "../../components/ListItem";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackParamsList } from "../../routes/app.routes";
 
 type RouteDetailParams = {
   Order: {
@@ -42,7 +44,8 @@ type ItemProps = {
 
 export default function Order() {
   const route = useRoute<OrderRouteProps>();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<StackParamsList>>();
 
   const [category, setCategory] = useState<CategoryProps[] | []>([]);
   const [categorySelected, setCategorySelected] = useState<CategoryProps>();
@@ -120,6 +123,10 @@ export default function Order() {
     setItems(removeItem);
   };
 
+  const handleFinishOrder = () => {
+    navigation.navigate("FinishOrder");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -168,6 +175,7 @@ export default function Order() {
         <TouchableOpacity
           style={[styles.button, { opacity: items.length === 0 ? 0.3 : 1 }]}
           disabled={items.length === 0}
+          onPress={handleFinishOrder}
         >
           <Text style={styles.buttonText}>Avancar</Text>
         </TouchableOpacity>
